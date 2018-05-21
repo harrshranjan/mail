@@ -7,15 +7,16 @@ if(isset($filter_input(INPUT_POST,'email_data')))
  $output = '';
  foreach($filter_input(INPUT_POST,'email_data') as $row)
  {
-  $mail = new PHPMailer;
+  $mail = new PHPMailer();
   $mail->IsSMTP();        //Sets Mailer to send message using SMTP
-  $mail->Host = 'smtp.gmail.com';  //Sets the SMTP hosts of your Email hosting, this for Godaddy
-  $mail->Port = '25';        //Sets the default SMTP server port
+  $mail->SMTPDebug=2;
+  $mail->Host = "smtp.gmail.com";  //Sets the SMTP hosts of your Email hosting, this for Godaddy
+  $mail->Port = 465;        //Sets the default SMTP server port
   $mail->SMTPAuth = true;       //Sets SMTP authentication. Utilizes the Username and Password variables
-  $mail->Username = 'XXXXXXXXXXXX@gmail.com';     //Sets SMTP username
-  $mail->Password = 'XXXXXXXXXXXXX';     //Sets SMTP password
-  $mail->SMTPSecure = "";       //Sets connection prefix. Options are "", "ssl" or "tls"
-  $mail->From = 'harrshranjan1996@gmail.com';   //Sets the From email address for the message
+  $mail->Username = 'harsh.ranjan.131996@gmail.com';     //Sets SMTP username
+  $mail->Password = 'anupayushiranjana';     //Sets SMTP password
+  $mail->SMTPSecure = "ssl";       //Sets connection prefix. Options are "", "ssl" or "tls"
+  $mail->From = 'harsh.ranjan.131996@gmail.com';   //Sets the From email address for the message
   $mail->FromName = 'Harsh Ranjan';     //Sets the From name of the message
   $mail->AddAddress($row["email"], $row["name"]); //Adds a "To" address
   $mail->WordWrap = 50;       //Sets word wrapping on the body of the message to a given number of characters
@@ -31,7 +32,14 @@ if(isset($filter_input(INPUT_POST,'email_data')))
 
   $mail->AltBody = '';
 
-  $result = $mail->Send();      //Send an Email. Return true on success or false on error
+  if($mail->Send())
+ {
+      echo "Send Mail Succesfully";
+  }
+  else
+  {
+     echo "Send Mail Fail"; //Send an Email. Return true on success or false on error
+  }
 
   if($result["code"] == '400')
   {
